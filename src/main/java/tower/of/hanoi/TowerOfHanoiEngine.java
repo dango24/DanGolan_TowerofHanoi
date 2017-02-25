@@ -16,13 +16,11 @@ public class TowerOfHanoiEngine implements TowerOfHanoiGame {
     private static final int NUM_OF_TOWERS = 4;
 
     // Fields
-    private int numberOfDiscs;
     private Queue<Move> moves;
     private Stack<Integer>[] towers;
 
     // Constructor
     public TowerOfHanoiEngine(int numberOfDiscs, Queue<Move> moves) {
-        this.numberOfDiscs = numberOfDiscs;
         this.moves = moves;
         initTowers(numberOfDiscs);
     }
