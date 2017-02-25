@@ -12,9 +12,6 @@ import java.util.stream.IntStream;
  */
 public class TowerOfHanoiEngine implements TowerOfHanoiGame {
 
-    // Constants
-    private static final int NUM_OF_TOWERS = 4;
-
     // Fields
     private Queue<Move> moves;
     private Stack<Integer>[] towers;
@@ -27,7 +24,7 @@ public class TowerOfHanoiEngine implements TowerOfHanoiGame {
 
     // Methods
     private void initTowers(int numberOfDiscs) {
-        towers = new Stack[NUM_OF_TOWERS];
+        towers = new Stack[4];
         towers[1] = new Stack<>();
         towers[2] = new Stack<>();
         towers[3] = new Stack<>();
@@ -56,11 +53,15 @@ public class TowerOfHanoiEngine implements TowerOfHanoiGame {
 
     private void checkIllegalMove(Move move) throws IllegalMoveException {
 
-        if (!(!towers[move.from()].isEmpty() && (towers[move.to()].isEmpty() ||
-              towers[move.to()].peek() > towers[move.from()].peek()))) {
+        if ( !(!towers[move.from()].isEmpty() &&
+              (towers[move.to()].isEmpty() || isDestinationBigger(move))) ) {
 
             throw new IllegalMoveException(Utils.IllegalMoveMessage(move.from(), move.to()));
         }
+    }
+
+    private boolean isDestinationBigger(Move move) {
+        return towers[move.to()].peek() > towers[move.from()].peek();
     }
 
     private boolean isCorrectHanoiTowers() {
