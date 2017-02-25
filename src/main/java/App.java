@@ -16,7 +16,6 @@ import java.util.Queue;
 public class App {
 
     public static void main(String[] args) {
-        String stepsFilePath;
         List<String> stepsLines;
 
         if (args.length != 1) {
@@ -25,8 +24,7 @@ public class App {
         }
 
         try {
-            stepsFilePath = args[0];
-            stepsLines = Utils.readInputFile(stepsFilePath);
+            stepsLines = Utils.readInputFile(args[0]);
             Utils.validateStepsLine(stepsLines);
             play(stepsLines);
 
