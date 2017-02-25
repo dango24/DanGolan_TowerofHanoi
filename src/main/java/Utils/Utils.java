@@ -1,11 +1,11 @@
 package Utils;
 
 import exceptions.InvalidInputException;
-import org.apache.commons.io.FilenameUtils;
 import tower.of.hanoi.Move;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedList;
@@ -35,7 +35,7 @@ public class Utils {
         return String.format(ILLEGAL_MOVE_MESSAGE, from, to);
     }
 
-    public static List<String> readInputFile(String stepsFilePath) throws InvalidInputException, IOException {
+    public static List<String> readInputFile(String stepsFilePath) throws InvalidInputException, IOException, UncheckedIOException {
         List<String> inputLines;
 
         if (stepsFilePath == null) {
@@ -43,9 +43,6 @@ public class Utils {
 
         } else if (!new File(stepsFilePath).exists()) {
             throw new InvalidInputException("The given input file does not exists");
-
-        } else if (!FilenameUtils.getExtension(stepsFilePath).equals("txt")) {
-            throw new InvalidInputException("The given input file is not a txt file");
         }
 
         inputLines = Files.lines(Paths.get(stepsFilePath))

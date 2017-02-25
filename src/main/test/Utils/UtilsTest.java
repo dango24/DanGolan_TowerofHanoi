@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +43,7 @@ public class UtilsTest {
         Utils.readInputFile(emptyFile);
     }
 
-    @Test(expected = InvalidInputException.class)
+    @Test(expected = UncheckedIOException.class)
     public void readNonTxtInputFileTest() throws Exception {
         String imgFile = new File(FILES_DIR, IMG_FILE).toString();
         Utils.readInputFile(imgFile);

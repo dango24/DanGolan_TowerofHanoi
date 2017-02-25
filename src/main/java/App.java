@@ -6,6 +6,7 @@ import tower.of.hanoi.TowerOfHanoiEngine;
 import tower.of.hanoi.TowerOfHanoiGame;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.Queue;
 
@@ -29,7 +30,7 @@ public class App {
             Utils.validateStepsLine(stepsLines);
             play(stepsLines);
 
-        } catch (InvalidInputException | IOException | IllegalMoveException e) {
+        } catch (InvalidInputException | IOException | UncheckedIOException | IllegalMoveException e) {
             System.out.println(Utils.FAILURE_MESSAGE);
             System.exit(0);
         } catch (Exception e) {
