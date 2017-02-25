@@ -1,10 +1,7 @@
 package tower.of.hanoi;
 
-import Utils.Utils;
 import exceptions.IllegalMoveException;
-import exceptions.InvalidInputException;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -12,11 +9,9 @@ import org.junit.runners.Parameterized;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Queue;
 import java.util.stream.Collectors;
 
 import static Utils.UtilsTest.FILES_DIR;
-import static org.junit.Assert.*;
 
 /**
  * Created by Dan on 2/25/2017.

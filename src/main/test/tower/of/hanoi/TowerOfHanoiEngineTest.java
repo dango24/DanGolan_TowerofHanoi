@@ -35,7 +35,7 @@ public class TowerOfHanoiEngineTest {
         Assert.assertEquals(Utils.FAILURE_MESSAGE, towerOfHanoiGame.play());
     }
 
-    public static TowerOfHanoiGame buildTowerOfHanoiGame(String input) throws Exception {
+    protected static TowerOfHanoiGame buildTowerOfHanoiGame(String input) throws Exception {
         List<String> stepsLines = Utils.readInputFile(input);
         int numberOfDiscs = Integer.valueOf(stepsLines.get(0));
         Queue<Move> moves = Utils.buildMovesFromList(stepsLines.subList(1, stepsLines.size()));
