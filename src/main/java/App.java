@@ -18,7 +18,7 @@ public class App {
         String stepsFilePath;
         List<String> stepsLines;
 
-        if (args.length == 0) {
+        if (args.length != 1) {
             System.out.println(Utils.FAILURE_MESSAGE);
             System.exit(0);
         }
