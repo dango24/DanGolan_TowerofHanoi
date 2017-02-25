@@ -2,14 +2,17 @@ package Utils;
 
 import exceptions.InvalidInputException;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.math.NumberUtils;
+import tower.of.hanoi.Move;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -20,48 +23,72 @@ public class Utils {
     // Constants
     public static final String SUCCESS_MESSAGE = "Yes";
     public static final String FAILURE_MESSAGE = "No";
+    private static final String ILLEGAL_MOVE_MESSAGE = "Moved disc smaller than destination: %d to: %d";
+    private static final Pattern PATTERN = Pattern.compile("^[1-3]{2}$");
+
+    // Predicates
+    private static final Predicate<String> IS_VALID_INPUT = inputRow -> PATTERN.matcher(inputRow).find();
+    private static final Predicate<String> IS_DIF_VALUES = inputRow -> inputRow.charAt(0) != inputRow.charAt(1);
 
     // Helper Functions
+    public static String IllegalMoveMessage(int from, int to) {
+        return String.format(ILLEGAL_MOVE_MESSAGE, from, to);
+    }
 
     public static List<String> readInputFile(String stepsFilePath) throws InvalidInputException, IOException {
+        List<String> inputLines;
 
-        if (!new File(stepsFilePath).exists()) {
+        if (stepsFilePath == null) {
+            throw new InvalidInputException("The given input file is null");
+
+        } else if (!new File(stepsFilePath).exists()) {
             throw new InvalidInputException("The given input file does not exists");
 
         } else if (!FilenameUtils.getExtension(stepsFilePath).equals("txt")) {
             throw new InvalidInputException("The given input file is not a txt file");
         }
 
-        return Files.lines(Paths.get(stepsFilePath))
-                    .collect(Collectors.toList());
+        inputLines = Files.lines(Paths.get(stepsFilePath))
+                          .collect(Collectors.toList());
+
+        if (inputLines.isEmpty()) {
+            throw new InvalidInputException("The given input file is empty");
+        }
+
+        return inputLines;
     }
 
     public static void validateStepsLine(List<String> stepsLines) throws InvalidInputException {
-        long numberOfValidRows;
+        boolean isValidInput;
 
         if (stepsLines == null || stepsLines.isEmpty()) {
-            throw new InvalidInputException("The given input file is corrupt");
+            throw new InvalidInputException("The input file is corrupt");
+        } else if (stepsLines.size() == 1) {
+            throw new InvalidInputException("There is no game moves in the input file");
         }
 
-        if (!NumberUtils.isNumber(stepsLines.get(0))) {
-            throw new InvalidInputException("The number of disk argument is not a number");
-        }
+        checkNumberOfDisks(stepsLines.get(0));
 
-        numberOfValidRows = stepsLines.subList(1, stepsLines.size())
-                                      .stream()
-                                      .filter(step -> step.length() == 2)
-                                      .filter(NumberUtils::isNumber)
-                                      .map(step -> Arrays.asList((int)step.charAt(0), (int)step.charAt(1)))
-                                      .filter(steps -> isStepsInRange(steps.get(0)))
-                                      .filter(steps -> isStepsInRange(steps.get(1)))
-                                      .count();
-
-        if (numberOfValidRows != stepsLines.size() -1) {
+        isValidInput = stepsLines.subList(1, stepsLines.size())
+                                 .stream()
+                                 .allMatch(IS_VALID_INPUT.and(IS_DIF_VALUES));
+        if (!isValidInput) {
             throw new InvalidInputException("The file contains invalid data");
         }
     }
 
-    private static boolean isStepsInRange(int value) {
-        return value >= 1 && value <= 3;
+    public static void checkNumberOfDisks(String numberOfDisks) throws InvalidInputException {
+        try {
+            Integer.parseInt(numberOfDisks);
+        } catch (NumberFormatException e) {
+            throw new InvalidInputException("The number of disk argument is not integer number " + e.getMessage());
+        }
+    }
+
+    public static Queue<Move> buildMovesFromList(List<String> strings) {
+        return strings.stream()
+                      .map(step -> new Move(Character.getNumericValue(step.charAt(0)),
+                                            Character.getNumericValue(step.charAt(1))))
+                      .collect(Collectors.toCollection(LinkedList::new));
     }
 }

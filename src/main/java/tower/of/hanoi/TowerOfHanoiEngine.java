@@ -1,5 +1,9 @@
 package tower.of.hanoi;
 
+import Utils.Utils;
+import exceptions.IllegalMoveException;
+
+import java.util.Queue;
 import java.util.Stack;
 import java.util.stream.IntStream;
 
@@ -13,18 +17,19 @@ public class TowerOfHanoiEngine implements TowerOfHanoiGame {
 
     // Fields
     private int numberOfDiscs;
+    private Queue<Move> moves;
     private Stack<Integer>[] towers;
 
     // Constructor
-    public TowerOfHanoiEngine(int numberOfDiscs) {
+    public TowerOfHanoiEngine(int numberOfDiscs, Queue<Move> moves) {
         this.numberOfDiscs = numberOfDiscs;
-        towers = new Stack[NUM_OF_TOWERS];
-        init(numberOfDiscs);
+        this.moves = moves;
+        initTowers(numberOfDiscs);
     }
 
     // Methods
-
-    private void init(int numberOfDiscs) {
+    private void initTowers(int numberOfDiscs) {
+        towers = new Stack[NUM_OF_TOWERS];
         towers[1] = new Stack<>();
         towers[2] = new Stack<>();
         towers[3] = new Stack<>();
@@ -35,19 +40,58 @@ public class TowerOfHanoiEngine implements TowerOfHanoiGame {
     }
 
     @Override
-    public String play() {
-        move(numberOfDiscs, 1, 2, 3);
-        return "Dango";
+    public String play() throws IllegalMoveException {
+        Move move;
+
+        while (!moves.isEmpty()) {
+            move = moves.poll();
+            checkIllegalMove(move);
+            towers[move.to()].push(towers[move.from()].pop());
+        }
+
+        if (isCorrectHanoiTowers()) {
+            return Utils.SUCCESS_MESSAGE;
+        } else {
+            return Utils.FAILURE_MESSAGE;
+        }
     }
 
-    private void move(int n, int a, int b, int c) {
-        if (n > 0) {
-            move(n-1, a, c, b);
-            int disc = towers[a].pop();
-            towers[c].push(disc);
-            display();
-            move(n-1, b, a, c);
+    private void checkIllegalMove(Move move) throws IllegalMoveException {
+
+        if (!(!towers[move.from()].isEmpty() && (towers[move.to()].isEmpty() ||
+              towers[move.to()].peek() > towers[move.from()].peek()))) {
+
+            throw new IllegalMoveException(Utils.IllegalMoveMessage(move.from(), move.to()));
         }
+    }
+
+    private boolean isCorrectHanoiTowers() {
+        return towers[1].isEmpty() && towers[2].isEmpty() && isTowerOrdered(towers[3]);
+    }
+
+    private boolean isTowerOrdered(Stack<Integer> tower) {
+        int min;
+        int nextElement;
+        Stack<Integer> tempStack;
+
+        if (tower.isEmpty()) {
+            return false;
+        }
+
+        tempStack = (Stack<Integer>)tower.clone();
+        min = tempStack.pop();
+
+        while (!tempStack.isEmpty()) {
+            nextElement = tempStack.pop();
+
+            if (min > nextElement) {
+                return false;
+            }
+
+            min = nextElement;
+        }
+
+        return true;
     }
 
     private void display() {
@@ -73,3 +117,4 @@ public class TowerOfHanoiEngine implements TowerOfHanoiGame {
         System.out.println("\n");
     }
 }
+
