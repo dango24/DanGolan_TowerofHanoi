@@ -93,28 +93,5 @@ public class TowerOfHanoiEngine implements TowerOfHanoiGame {
 
         return true;
     }
-
-    private void display() {
-
-        System.out.println("  A  |  B  |  C");
-        System.out.println("---------------");
-
-        for(int i = numberOfDiscs - 1; i >= 0; i--) {
-            String d1 = " ", d2 = " ", d3 = " ";
-            try {
-                d1 = String.valueOf(towers[1].get(i));
-            } catch (Exception e){}
-            try {
-                d2 = String.valueOf(towers[2].get(i));
-            } catch(Exception e){}
-            try {
-                d3 = String.valueOf(towers[3].get(i));
-            } catch (Exception e){
-            }
-            System.out.println("  "+d1+"  |  "+d2+"  |  "+d3);
-        }
-
-        System.out.println("\n");
-    }
 }
 
