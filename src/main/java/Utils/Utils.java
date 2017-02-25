@@ -55,7 +55,7 @@ public class Utils {
         return inputLines;
     }
 
-    public static void validateStepsLine(List<String> stepsLines) throws InvalidInputException {
+    public static void validateStepsLine(final List<String> stepsLines) throws InvalidInputException {
         boolean isValidInput;
 
         if (stepsLines == null || stepsLines.isEmpty()) {
@@ -82,7 +82,7 @@ public class Utils {
         }
     }
 
-    public static Queue<Move> buildMovesFromList(List<String> strings) {
+    public static Queue<Move> buildMovesFromList(final List<String> strings) {
         return strings.stream()
                       .map(step -> new Move(Character.getNumericValue(step.charAt(0)),
                                             Character.getNumericValue(step.charAt(1))))

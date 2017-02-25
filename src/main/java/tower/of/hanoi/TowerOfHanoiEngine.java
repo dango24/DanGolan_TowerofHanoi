@@ -51,7 +51,7 @@ public class TowerOfHanoiEngine implements TowerOfHanoiGame {
         }
     }
 
-    private void checkIllegalMove(Move move) throws IllegalMoveException {
+    private void checkIllegalMove(final Move move) throws IllegalMoveException {
 
         if ( !(!towers[move.from()].isEmpty() &&
               (towers[move.to()].isEmpty() || isDestinationBigger(move))) ) {
@@ -60,7 +60,7 @@ public class TowerOfHanoiEngine implements TowerOfHanoiGame {
         }
     }
 
-    private boolean isDestinationBigger(Move move) {
+    private boolean isDestinationBigger(final Move move) {
         return towers[move.to()].peek() > towers[move.from()].peek();
     }
 
@@ -68,7 +68,7 @@ public class TowerOfHanoiEngine implements TowerOfHanoiGame {
         return towers[1].isEmpty() && towers[2].isEmpty() && isTowerOrdered(towers[3]);
     }
 
-    private boolean isTowerOrdered(Stack<Integer> tower) {
+    private boolean isTowerOrdered(final Stack<Integer> tower) {
         int min;
         int nextElement;
         Stack<Integer> tempStack;

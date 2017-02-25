@@ -37,7 +37,7 @@ public class App {
         }
     }
 
-    private static void play(List<String> stepsLines) throws IllegalMoveException {
+    private static void play(final List<String> stepsLines) throws IllegalMoveException {
         int numberOfDiscs = Integer.valueOf(stepsLines.get(0));
         Queue<Move> moves = Utils.buildMovesFromList(stepsLines.subList(1, stepsLines.size()));
         TowerOfHanoiGame towerOfHanoiGame = new TowerOfHanoiEngine(numberOfDiscs, moves);
