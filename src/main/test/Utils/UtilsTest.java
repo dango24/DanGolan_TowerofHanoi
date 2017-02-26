@@ -19,7 +19,7 @@ public class UtilsTest {
 
     // Constants
     public static final String FILES_DIR = System.getProperty("user.dir") + File.separator + "files";
-    private static final String VALID_FILE = "valid_input.txt";
+    private static final String VALID_FILE = "valid_moves.txt";
     private static final String EMPTY_FILE = "empty_file.txt";
     private static final String FILE_ONE_LINE = "file_one_line";
     private static final String IMG_FILE = "mars.jpg";

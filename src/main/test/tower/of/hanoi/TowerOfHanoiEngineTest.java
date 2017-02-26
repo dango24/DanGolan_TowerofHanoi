@@ -16,8 +16,8 @@ import static Utils.UtilsTest.FILES_DIR;
 public class TowerOfHanoiEngineTest {
 
     // Constants
-    private static final String VALID_MOVES = "valid_input.txt";
-    private static final String INVALID_MOVES = "invalid_input.txt";
+    private static final String VALID_MOVES = "valid_moves.txt";
+    private static final String INVALID_MOVES = "invalid_moves.txt";
 
     @Test
     public void TowerOfHanoiGameSucceed() throws Exception {
